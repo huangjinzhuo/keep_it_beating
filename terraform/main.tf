@@ -111,6 +111,22 @@ module "open_all_sg" {
     }
   ]
 
+  egress_cidr_blocks      = ["10.0.0.0/16"]
+  egress_with_cidr_blocks = [
+    {
+      rule        = "all-all"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+
+  tags = {
+    Owner       = "${var.fellow_name}"
+    Environment = "dev"
+    Terraform   = "true"
+  }
+}
+
+
 module "close_all_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "1.9.0"
@@ -141,6 +157,8 @@ module "close_all_sg" {
     Terraform   = "true"
   }
 }
+
+
 
 /* 
 
@@ -237,7 +255,7 @@ resource "aws_instance" "kafka_broker" {
 
 
 
-# Configuration for 3 "kafka broker" instances
+# Configuration for 3 "cassandra" instances
 resource "aws_instance" "cassandra" {
     ami             = "${lookup(var.amis, var.aws_region)}"
     instance_type   = "m4.large"
@@ -281,11 +299,10 @@ resource "aws_instance" "bastian" {
     }
 
     tags {
-      Name        = "${var.cluster_name}-cassandra-${count.index}"
+      Name        = "${var.cluster_name}-bastian-${count.index}"
       Owner       = "${var.fellow_name}"
       Environment = "dev"
       Terraform   = "true"
-      CassandraRole  = "cassandra"
     }
 
 }
