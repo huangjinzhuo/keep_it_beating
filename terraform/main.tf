@@ -218,9 +218,40 @@ resource "aws_instance" "kafka_broker" {
     }
 
 }
+
+
+
+# Configuration for 3 "kafka broker" instances
+resource "aws_instance" "cassandra" {
+    ami             = "${lookup(var.amis, var.aws_region)}"
+    instance_type   = "m4.large"
+    key_name        = "${var.keypair_name}"
+    count           = 3
+
+    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
+    associate_public_ip_address = true
+    
+    root_block_device {
+        volume_size = 100
+        volume_type = "standard"
+    }
+
+    tags {
+      Name        = "${var.cluster_name}-cassandra-${count.index}"
+      Owner       = "${var.fellow_name}"
+      Environment = "dev"
+      Terraform   = "true"
+      CassandraRole  = "cassandra"
+    }
+
+}
+
+
+
 # Configuration for an Elastic IP to add to nodes
 resource "aws_eip" "elastic_ips_for_instances" {
   vpc       = true
-  instance  = "${element(concat(aws_instance.cluster_master.*.id, aws_instance.cluster_workers.*.id,aws_instance.kafka_broker.*.id), count.index)}"
-  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count}"
+  instance  = "${element(concat(aws_instance.cluster_master.*.id, aws_instance.cluster_workers.*.id, aws_instance.kafka_broker.*.id, aws_instance.cassandra.*.id), count.index)}"
+  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count + aws_instance.cassandra.count}"
 }

@@ -12,5 +12,5 @@ outputs for a new module (and nest these modules within)
  */
 
  output "cluster_size" {
- 	value = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count}"
+ 	value = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count + aws_instance.cassandra.count}"
  }
