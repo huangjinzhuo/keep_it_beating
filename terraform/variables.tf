@@ -35,7 +35,7 @@ variable "cluster_name" {
 variable "instance_type" {
     description = "The type for your instances in your cluster"
     default     = "t2.micro"
-
+}
 /*	
 
 Not using AWS credential variables since they're automatically detected 
