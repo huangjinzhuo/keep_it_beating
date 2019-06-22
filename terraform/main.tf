@@ -222,5 +222,5 @@ resource "aws_instance" "kafka_broker" {
 resource "aws_eip" "elastic_ips_for_instances" {
   vpc       = true
   instance  = "${element(concat(aws_instance.cluster_master.*.id, aws_instance.cluster_workers.*.id,aws_instance.kafka_broker.*.id), count.index)}"
-  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.cluster_master.count}"
+  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count}"
 }
