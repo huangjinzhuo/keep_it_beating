@@ -13,5 +13,5 @@ Alternatively, use environment variables for your credentials
 fellow_name="jin"
 
 # name of your key pair (already created in AWS)
-keypair_name="jin-IAM-keypair"
+keypair_name="beats-IAM-keypair.pem"
 
