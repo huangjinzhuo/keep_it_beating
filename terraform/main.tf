@@ -271,7 +271,7 @@ resource "aws_instance" "bastian" {
     key_name        = "${var.keypair_name}"
     count           = 1
 
-    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.close_all_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
     associate_public_ip_address = true
     
@@ -295,6 +295,6 @@ resource "aws_instance" "bastian" {
 # Configuration for an Elastic IP to add to nodes
 resource "aws_eip" "elastic_ips_for_instances" {
   vpc       = true
-  instance  = "${element(concat(aws_instance.cluster_master.*.id, aws_instance.cluster_workers.*.id, aws_instance.kafka_broker.*.id, aws_instance.cassandra.*.id), count.index)}"
-  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count + aws_instance.cassandra.count}"
+  instance  = "${element(concat(aws_instance.cluster_master.*.id, aws_instance.cluster_workers.*.id, aws_instance.kafka_broker.*.id, aws_instance.cassandra.*.id, aws_instance.bastian.*.id), count.index)}"
+  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count + aws_instance.cassandra.count + aws_instance.bastian.count}"
 }
