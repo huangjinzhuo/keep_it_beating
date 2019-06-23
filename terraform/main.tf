@@ -121,7 +121,7 @@ module "open_all_internal_sg" {
   egress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "00.0.0.0/0"
+      cidr_blocks = "0.0.0.0/0"
     }
   ]
 
