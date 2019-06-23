@@ -139,6 +139,9 @@ module "close_all_sg" {
   ingress_with_cidr_blocks = [
     {
       rule        = "all-all"
+      from_port   = 22
+      to_port     = 22
+      protocol    ="tcp"
       cidr_blocks = "0.0.0.0/0"
     }
   ]
