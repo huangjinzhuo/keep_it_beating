@@ -226,7 +226,7 @@ Note: You don't need the below resources for using the Pegasus tool
 
 # Configuration for a "master" instance
 resource "aws_instance" "cluster_master" {
-    ami             = "${lookup(var.amis, var.aws_region)}"
+    ami             = "${lookup(var.amis, "spark")}"
     instance_type   = "m4.large"
     key_name        = "${var.keypair_name}"
     count           = 1
@@ -252,7 +252,7 @@ resource "aws_instance" "cluster_master" {
 
 # Configuration for 3 "worker" elastic_ips_for_instances
 resource "aws_instance" "cluster_workers" {
-    ami             = "${lookup(var.amis, var.aws_region)}"
+    ami             = "${lookup(var.amis, "spark")}"
     instance_type   = "m4.large"
     key_name        = "${var.keypair_name}"
     count           = 3
@@ -332,7 +332,7 @@ resource "aws_instance" "cassandra" {
 
 # Configuration for 1 "flask" instances
 resource "aws_instance" "flask" {
-    ami             = "${lookup(var.amis, var.aws_region)}"
+    ami             = "${lookup(var.amis, "flask")}"
     instance_type   = "m4.large"
     key_name        = "${var.keypair_name}"
     count           = 1
