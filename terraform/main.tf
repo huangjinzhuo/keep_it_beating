@@ -184,7 +184,7 @@ resource "aws_instance" "cluster_master" {
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
-    associate_public_ip_address = true
+    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -211,7 +211,7 @@ resource "aws_instance" "cluster_workers" {
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
-    associate_public_ip_address = true
+    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -239,7 +239,7 @@ resource "aws_instance" "kafka_broker" {
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
-    associate_public_ip_address = true
+    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -267,7 +267,7 @@ resource "aws_instance" "cassandra" {
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
-    associate_public_ip_address = true
+    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
