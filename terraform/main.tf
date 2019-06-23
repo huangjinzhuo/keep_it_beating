@@ -260,7 +260,7 @@ resource "aws_instance" "cluster_workers" {
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-    associate_public_ip_address = false
+#    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -288,7 +288,7 @@ resource "aws_instance" "kafka_broker" {
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-    associate_public_ip_address = false
+#    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -316,7 +316,7 @@ resource "aws_instance" "cassandra" {
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-    associate_public_ip_address = false
+#    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -390,6 +390,6 @@ resource "aws_instance" "bastian" {
 # Configuration for an Elastic IP to add to nodes
 resource "aws_eip" "elastic_ips_for_instances" {
   vpc       = true
-  instance  = "${element(concat(aws_instance.cluster_master.*.id, aws_instance.cluster_workers.*.id, aws_instance.kafka_broker.*.id, aws_instance.cassandra.*.id, aws_instance.flask.*.id, aws_instance.bastian.*.id), count.index)}"
-  count     = "${aws_instance.cluster_master.count + aws_instance.cluster_workers.count + aws_instance.kafka_broker.count + aws_instance.cassandra.count + aws_instance.flask.count + aws_instance.bastian.count}"
+  instance  = "${element(concat(aws_instance.flask.*.id, aws_instance.bastian.*.id), count.index)}"
+  count     = "${aws_instance.flask.count + aws_instance.bastian.count}"
 }
