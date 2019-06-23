@@ -28,6 +28,11 @@ variable "amis" {
   type = "map"
   default = {
     "us-west-2" = "ami-060eece82fbcf60c9"
+    kafka = "ami-0ac32ff18b7e18d36"                 # this is postgress ami. need to change the image
+    spark = "ami-09550b84dfba8f5cf"
+    cassandra = "ami-0ac32ff18b7e18d36"             # this is postgress ami. need to change the image
+    flask = "ami-073264bd0fc497f34"
+    ubuntu = "ami-ba602bc2"
   }
 }
 
