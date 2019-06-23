@@ -16,6 +16,10 @@ variable "keypair_name" {
 	description = "The name of your pre-made key-pair in Amazon (e.g. david-IAM-keypair )" 
 } 
 
+variable "bastian_keypair_name" {
+	description = "The name of your pre-made key-pair in Amazon (e.g. david-IAM-keypair )" 
+} 
+
 variable "fellow_name" {
   description = "The name that will be tagged on your resources."
 }
