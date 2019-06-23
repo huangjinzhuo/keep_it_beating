@@ -70,7 +70,11 @@ Note that in the example we allocate 3 IPs because we will be provisioning 3 NAT
 
 /*
 External NAT Gateway IPs
-By default this module will provision new Elastic IPs for the VPC's NAT Gateways. This means that when creating a new VPC, new IPs are allocated, and when that VPC is destroyed those IPs are released. Sometimes it is handy to keep the same IPs even after the VPC is destroyed and re-created. To that end, it is possible to assign existing IPs to the NAT Gateways. This prevents the destruction of the VPC from releasing those IPs, while making it possible that a re-created VPC uses the same IPs.
+By default this module will provision new Elastic IPs for the VPC's NAT Gateways. 
+This means that when creating a new VPC, new IPs are allocated, and when that VPC is destroyed those IPs are released. 
+Sometimes it is handy to keep the same IPs even after the VPC is destroyed and re-created. 
+To that end, it is possible to assign existing IPs to the NAT Gateways. 
+This prevents the destruction of the VPC from releasing those IPs, while making it possible that a re-created VPC uses the same IPs.
 Then, pass the allocated IPs as a parameter to the VPC module.
 
 To achieve this, allocate the IPs outside the VPC module declaration.
@@ -183,7 +187,7 @@ resource "aws_instance" "cluster_master" {
     count           = 1
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
-    subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
+    subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
     root_block_device {
@@ -210,7 +214,7 @@ resource "aws_instance" "cluster_workers" {
     count           = 3
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
-    subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
+    subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
     root_block_device {
@@ -238,7 +242,7 @@ resource "aws_instance" "kafka_broker" {
     count           = 3
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
-    subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
+    subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
     root_block_device {
@@ -266,7 +270,7 @@ resource "aws_instance" "cassandra" {
     count           = 3
 
     vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
-    subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
+    subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
     root_block_device {
