@@ -358,7 +358,7 @@ resource "aws_instance" "flask" {
 
 # Configuration for 1 "bastian jump box" instances
 resource "aws_instance" "bastian" {
-    ami             = "${lookup(var.amis, "ubuntu")}"
+    ami             = "${lookup(var.amis, "bastian")}"
     instance_type   = "t2.micro"
     key_name        = "${var.bastian_keypair_name}"
     count           = 1
