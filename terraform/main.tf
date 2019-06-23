@@ -138,6 +138,48 @@ module "close_all_sg" {
   version = "1.9.0"
 
   name        = "close-to-all-sg"
+  description = "Security group to make all ports publicly close"
+  
+  vpc_id                   = "${module.sandbox_vpc.vpc_id}"
+  ingress_cidr_blocks      = ["10.0.0.0/16"]
+  ingress_with_cidr_blocks = [
+    {
+      rule        = "all-all"
+      from_port   = 80
+      to_port     = 80
+      protocol    ="tcp"
+      cidr_blocks = "0.0.0.0/0"
+    }
+    {
+      rule        = "all-all"
+      from_port   = 443
+      to_port     = 443
+      protocol    ="tcp"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+
+  egress_cidr_blocks      = ["10.0.0.0/16"]
+  egress_with_cidr_blocks = [
+    {
+      rule        = "all-all"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+
+  tags = {
+    Owner       = "${var.fellow_name}"
+    Environment = "dev"
+    Terraform   = "true"
+  }
+}
+
+
+module "close_all_bastian_sg" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "1.9.0"
+
+  name        = "close-to-all-bastian-sg"
   description = "Security group to make all ports publicly close...have to specifically modified to allow remote host"
   
   vpc_id                   = "${module.sandbox_vpc.vpc_id}"
@@ -188,7 +230,7 @@ resource "aws_instance" "cluster_master" {
     key_name        = "${var.keypair_name}"
     count           = 1
 
-    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
@@ -215,7 +257,7 @@ resource "aws_instance" "cluster_workers" {
     key_name        = "${var.keypair_name}"
     count           = 3
 
-    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
@@ -243,7 +285,7 @@ resource "aws_instance" "kafka_broker" {
     key_name        = "${var.keypair_name}"
     count           = 3
 
-    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
@@ -271,7 +313,7 @@ resource "aws_instance" "cassandra" {
     key_name        = "${var.keypair_name}"
     count           = 3
 
-    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
     associate_public_ip_address = false
     
@@ -298,7 +340,7 @@ resource "aws_instance" "flask" {
     key_name        = "${var.keypair_name}"
     count           = 1
 
-    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.close_all_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
     associate_public_ip_address = true
     
@@ -324,7 +366,7 @@ resource "aws_instance" "bastian" {
     key_name        = "${var.bastian_keypair_name}"
     count           = 1
 
-    vpc_security_group_ids      = ["${module.close_all_sg.this_security_group_id}"]
+    vpc_security_group_ids      = ["${module.close_all_bastian_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
     associate_public_ip_address = true
     
