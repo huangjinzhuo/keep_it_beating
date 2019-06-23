@@ -51,11 +51,13 @@ module "sandbox_vpc" {
 
 /*
 Get the allocated IPs as a parameter
-Note that in the example we allocate 3 IPs because we will be provisioning 3 NAT Gateways (due to single_nat_gateway = false and having 3 subnets). If, on the other hand, single_nat_gateway = true, then aws_eip.nat would only need to allocate 1 IP. Passing the IPs into the module is done by setting two variables reuse_nat_ips = true and external_nat_ip_ids = ["${aws_eip.nat.*.id}"].
+Note that in the example we allocate 3 IPs because we will be provisioning 3 NAT Gateways (due to single_nat_gateway = false and 
+having 3 subnets). If, on the other hand, single_nat_gateway = true, then aws_eip.nat would only need to allocate 1 IP. 
+Passing the IPs into the module is done by setting two variables reuse_nat_ips = true and external_nat_ip_ids = ["${aws_eip.nat.*.id}"].
 */
   enable_nat_gateway  = true
   single_nat_gateway  = false
-  reuse_nat_ips       = true                      # <= Skip creation of EIPs for the NAT Gateways
+  reuse_nat_ips       = false                      # <= if true, Skip creation of EIPs for the NAT Gateways
   external_nat_ip_ids = ["${aws_eip.nat.*.id}"]   # <= IPs specified here as input to the module
 
  
@@ -99,19 +101,19 @@ Check out all the available sub-modules at:
 https://github.com/terraform-aws-modules/terraform-aws-security-group/tree/master/modules
 
  */
-module "open_all_sg" {
+module "open_all_internal_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "1.9.0"
 
-  name        = "open-to-all-sg"
-  description = "Security group to make all ports publicly open...not secure at all"
+  name        = "open-to-all-internal-sg"
+  description = "Security group to make all ports internally open...but not external"
   
   vpc_id                   = "${module.sandbox_vpc.vpc_id}"
   ingress_cidr_blocks      = ["10.0.0.0/16"]
   ingress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "10.0.0.0/16"
     }
   ]
 
@@ -119,7 +121,7 @@ module "open_all_sg" {
   egress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "00.0.0.0/0"
     }
   ]
 
