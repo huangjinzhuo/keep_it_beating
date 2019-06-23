@@ -107,8 +107,8 @@ module "open_all_internal_sg" {
 
   name        = "open-to-all-internal-sg"
   description = "Security group to make all ports internally open...but not external"
-  
   vpc_id                   = "${module.sandbox_vpc.vpc_id}"
+  
   ingress_cidr_blocks      = ["10.0.0.0/16"]
   ingress_with_cidr_blocks = [
     {
@@ -139,8 +139,8 @@ module "close_all_sg" {
 
   name        = "close-to-all-sg"
   description = "Security group to make all ports publicly close"
-  
   vpc_id                   = "${module.sandbox_vpc.vpc_id}"
+  
   ingress_cidr_blocks      = ["10.0.0.0/16"]
   ingress_with_cidr_blocks = [
     {
@@ -149,7 +149,8 @@ module "close_all_sg" {
       to_port     = 80
       protocol    ="tcp"
       cidr_blocks = "0.0.0.0/0"
-    }
+    },
+
     {
       rule        = "all-all"
       from_port   = 443
@@ -181,8 +182,8 @@ module "close_all_bastian_sg" {
 
   name        = "close-to-all-bastian-sg"
   description = "Security group to make all ports publicly close...have to specifically modified to allow remote host"
-  
   vpc_id                   = "${module.sandbox_vpc.vpc_id}"
+  
   ingress_cidr_blocks      = ["10.0.0.0/16"]
   ingress_with_cidr_blocks = [
     {
