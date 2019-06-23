@@ -233,7 +233,6 @@ resource "aws_instance" "cluster_master" {
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -260,7 +259,6 @@ resource "aws_instance" "cluster_workers" {
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-#    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -281,14 +279,13 @@ resource "aws_instance" "cluster_workers" {
 
 # Configuration for 3 "kafka broker" instances
 resource "aws_instance" "kafka_broker" {
-    ami             = "${lookup(var.amis, var.aws_region)}"
+    ami             = "${lookup(var.amis, "kafka")}"
     instance_type   = "m4.large"
     key_name        = "${var.keypair_name}"
     count           = 3
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-#    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -309,14 +306,13 @@ resource "aws_instance" "kafka_broker" {
 
 # Configuration for 3 "cassandra" instances
 resource "aws_instance" "cassandra" {
-    ami             = "${lookup(var.amis, var.aws_region)}"
+    ami             = "${lookup(var.amis, "cassandra")}"
     instance_type   = "m4.large"
     key_name        = "${var.keypair_name}"
     count           = 3
 
     vpc_security_group_ids      = ["${module.open_all_internal_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.private_subnets[0]}"
-#    associate_public_ip_address = false
     
     root_block_device {
         volume_size = 100
@@ -362,7 +358,7 @@ resource "aws_instance" "flask" {
 
 # Configuration for 1 "bastian jump box" instances
 resource "aws_instance" "bastian" {
-    ami             = "${lookup(var.amis, var.aws_region)}"
+    ami             = "${lookup(var.amis, "ubuntu")}"
     instance_type   = "t2.micro"
     key_name        = "${var.bastian_keypair_name}"
     count           = 1
