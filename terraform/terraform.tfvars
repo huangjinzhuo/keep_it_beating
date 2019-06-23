@@ -14,4 +14,6 @@ fellow_name="jin"
 
 # name of your key pair (already created in AWS)
 keypair_name="beats-IAM-keypair.pem"
+bastian_keypair_name="bastian-IAM-keypair.pem"
+
 

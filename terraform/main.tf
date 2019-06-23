@@ -46,7 +46,7 @@ module "sandbox_vpc" {
   
   enable_dhcp_options              = true
   dhcp_options_domain_name         = "decentcore.com"
-  dhcp_options_domain_name_servers = ["127.0.0.1", "8.8.8.8"]
+  dhcp_options_domain_name_servers = ["8.8.8.8", "8.8.4.4"]
   
 
 /*
@@ -286,7 +286,7 @@ resource "aws_instance" "cassandra" {
 resource "aws_instance" "bastian" {
     ami             = "${lookup(var.amis, var.aws_region)}"
     instance_type   = "t2.micro"
-    key_name        = "${var.keypair_name}"
+    key_name        = "${var.bastian_keypair_name}"
     count           = 1
 
     vpc_security_group_ids      = ["${module.close_all_sg.this_security_group_id}"]
