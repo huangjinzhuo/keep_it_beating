@@ -285,6 +285,32 @@ resource "aws_instance" "cassandra" {
 }
 
 
+# Configuration for 1 "flask" instances
+resource "aws_instance" "flask" {
+    ami             = "${lookup(var.amis, var.aws_region)}"
+    instance_type   = "m4.large"
+    key_name        = "${var.keypair_name}"
+    count           = 1
+
+    vpc_security_group_ids      = ["${module.open_all_sg.this_security_group_id}"]
+    subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
+    associate_public_ip_address = true
+    
+    root_block_device {
+        volume_size = 100
+        volume_type = "standard"
+    }
+
+    tags {
+      Name        = "${var.cluster_name}-flask-${count.index}"
+      Owner       = "${var.fellow_name}"
+      Environment = "dev"
+      Terraform   = "true"
+    }
+
+}
+
+
 # Configuration for 1 "bastian jump box" instances
 resource "aws_instance" "bastian" {
     ami             = "${lookup(var.amis, var.aws_region)}"
