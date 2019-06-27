@@ -363,8 +363,7 @@ resource "aws_instance" "bastian" {
     key_name        = "${var.bastian_keypair_name}"
     count           = 1
 
-#    vpc_security_group_ids      = ["${module.close_all_bastian_sg.this_security_group_id}"]
-    vpc_security_group_ids      = ["sg-09c6984fa5dae46dc"]
+    vpc_security_group_ids      = ["${module.close_all_bastian_sg.this_security_group_id}"]
     subnet_id                   = "${module.sandbox_vpc.public_subnets[0]}"
     associate_public_ip_address = true
     
