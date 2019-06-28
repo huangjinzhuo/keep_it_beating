@@ -29,5 +29,13 @@ deactivate
 
 #Others
 #to check used ports
-sudo netstat -plunt
+sudo netstat -plnt
+
+
+
+#On develope virtual environment, get dependencies
+
+
+
+
 

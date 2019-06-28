@@ -87,3 +87,4 @@ def normalize_paramter_names(ip_items):
         new_ip_items.append(new_ip_item)
 
     return new_ip_items
+
