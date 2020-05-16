@@ -13,24 +13,24 @@
 
 ## Heart Rate Monitor
 
-Heart Rate Moniotor is an Insight engineered application that takes in real-time streaming data to produce ECG records and display irregular patient information. The application could be used by healthcare providers to monitor any life-threathening events or to diagnose cardiac arrhythmia.
+Heart Rate Moniotor is an Insight engineered application that takes in real-time heat-rate streaming data to produce ECG records and display  information of patients with irregular heart-rates. The application could be used by healthcare providers to monitor life-threathening events or to diagnose cardiac arrhythmia.
 
 
 ## Auto Deployment
 
-This DevOps project was to deploy the application data pipeline infrastructure with just one-click by using Terraform. Here are the core packages used in Heart Rate Monitor:
+This DevOps project was to deploy the application data pipeline infrastructure using Terraform. Here are the core components used in the heartrRate monitor application:
 
-Python 3.6
-Nginx, Gunicorn and Flask
-Cassandra cluster
-Spark Streaming cluster
-Kafka cluster
+Python 3.6,
+Nginx, Gunicorn and Flask,
+Cassandra cluster,
+Spark Streaming cluster,
+Kafka cluster,
 S3 Bucket
 
 
-## Security Group Auto Remedy
+## Security Group Auto Remediation
 
-Second challenge is to automate some security remedy by using Cloud Trail, CloudWatch, and Lambda.
+This project also implemented auto remediation of some unauthorized security group changes by using Cloud Trail, CloudWatch, and Lambda.
 
 
 ## Requirements
@@ -51,7 +51,7 @@ https://github.com/huangjinzhuo/keep_it_beating/blob/master/images/Keep_It_Beati
 ## Challenge
 
 * One-click deployment to deploy servers in various requirement.
-* Auto remedy when special security group is changed.
+* Auto remediation when special security group is changed.
 
 ## DevOps
 
